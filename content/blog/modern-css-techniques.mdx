@@ -1,0 +1,454 @@
+---
+title: "Modern CSS Techniques Every Developer Should Know"
+description: "Explore cutting-edge CSS features and techniques that will transform your web development workflow and create stunning user interfaces."
+date: "2024-02-05"
+author: "Your Name"
+readTime: "12 min read"
+tags: ["CSS", "Web Development", "Frontend", "Design", "Modern Web"]
+---
+
+## Introduction
+
+CSS has evolved tremendously over the past few years, introducing powerful new features that make creating complex layouts and interactions easier than ever. In this article, we'll explore modern CSS techniques that every developer should have in their toolkit.
+
+## CSS Grid: The Layout Revolution
+
+CSS Grid has revolutionized how we approach layout design, providing a two-dimensional layout system that's both powerful and intuitive.
+
+### Basic Grid Setup
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.item {
+  background: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+}
+```
+
+### Advanced Grid Techniques
+
+```css
+.advanced-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 3fr minmax(150px, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: 
+    "header header header"
+    "sidebar main aside"
+    "footer footer footer";
+  min-height: 100vh;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+```
+
+## Flexbox: Still Essential
+
+While Grid handles two-dimensional layouts, Flexbox remains perfect for one-dimensional layouts and component-level design.
+
+### Centering Made Easy
+
+```css
+.center-everything {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+```
+
+### Flexible Navigation
+
+```css
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+```
+
+## CSS Custom Properties (Variables)
+
+CSS variables provide dynamic theming and maintainable stylesheets.
+
+### Setting Up a Design System
+
+```css
+:root {
+  /* Colors */
+  --primary-color: #3b82f6;
+  --secondary-color: #64748b;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  
+  /* Typography */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+```
+
+### Dynamic Theming
+
+```css
+.button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: 0.375rem;
+  font-size: var(--font-size-base);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 90%, black);
+  box-shadow: var(--shadow-md);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --secondary-color: #94a3b8;
+}
+```
+
+## Container Queries: Responsive Components
+
+Container queries allow components to respond to their container's size rather than the viewport.
+
+```css
+.card-container {
+  container-type: inline-size;
+  container-name: card;
+}
+
+.card {
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+}
+
+@container card (min-width: 300px) {
+  .card {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .card-content {
+    flex: 1;
+  }
+}
+
+@container card (min-width: 500px) {
+  .card {
+    padding: 2rem;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+  }
+}
+```
+
+## Modern Selectors and Pseudo-Classes
+
+### :has() - The Parent Selector
+
+```css
+/* Style a card differently if it contains an image */
+.card:has(img) {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1rem;
+}
+
+/* Style a form differently if it has errors */
+.form:has(.error) {
+  border-color: var(--error-color);
+}
+```
+
+### :is() and :where() for Cleaner Code
+
+```css
+/* Instead of repeating selectors */
+.header h1,
+.header h2,
+.header h3 {
+  margin-top: 0;
+}
+
+/* Use :is() */
+.header :is(h1, h2, h3) {
+  margin-top: 0;
+}
+
+/* :where() has zero specificity */
+:where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0;
+  line-height: 1.2;
+}
+```
+
+## Advanced Animation Techniques
+
+### CSS Scroll-Driven Animations
+
+```css
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-animate {
+  animation: fade-in linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 50%;
+}
+```
+
+### View Transitions API
+
+```css
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
+::view-transition-old(root) {
+  animation-name: slide-out;
+}
+
+::view-transition-new(root) {
+  animation-name: slide-in;
+}
+
+@keyframes slide-out {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+```
+
+## Logical Properties for Internationalization
+
+Logical properties make your CSS work better with different writing modes and directions.
+
+```css
+.card {
+  /* Instead of margin-left and margin-right */
+  margin-inline: 1rem;
+  
+  /* Instead of margin-top and margin-bottom */
+  margin-block: 2rem;
+  
+  /* Instead of padding-left */
+  padding-inline-start: 1rem;
+  
+  /* Instead of border-left */
+  border-inline-start: 3px solid var(--primary-color);
+}
+```
+
+## Modern Color Functions
+
+### color-mix() for Dynamic Colors
+
+```css
+.button {
+  background-color: var(--primary-color);
+}
+
+.button:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 80%, white);
+}
+
+.button:active {
+  background-color: color-mix(in srgb, var(--primary-color) 90%, black);
+}
+```
+
+### oklch() for Better Color Spaces
+
+```css
+:root {
+  /* More perceptually uniform colors */
+  --primary: oklch(0.7 0.15 250);
+  --primary-light: oklch(0.8 0.15 250);
+  --primary-dark: oklch(0.6 0.15 250);
+}
+```
+
+## Subgrid for Complex Layouts
+
+```css
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+}
+
+.card-header,
+.card-content,
+.card-footer {
+  /* These will align across all cards */
+}
+```
+
+## Performance Optimization with CSS
+
+### content-visibility for Better Performance
+
+```css
+.long-article {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+```
+
+### will-change for Animation Optimization
+
+```css
+.animated-element {
+  will-change: transform, opacity;
+}
+
+.animated-element.animating {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animated-element:not(.animating) {
+  will-change: auto;
+}
+```
+
+## Practical Examples
+
+### Modern Card Component
+
+```css
+.modern-card {
+  container-type: inline-size;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.modern-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+@container (min-width: 300px) {
+  .modern-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+  }
+}
+
+@container (min-width: 500px) {
+  .modern-card {
+    grid-template-columns: 200px 1fr;
+  }
+}
+```
+
+### Responsive Typography
+
+```css
+.responsive-text {
+  font-size: clamp(1rem, 4vw, 2.5rem);
+  line-height: 1.4;
+  margin-block: clamp(0.5rem, 2vw, 2rem);
+}
+```
+
+## Browser Support and Progressive Enhancement
+
+Always consider browser support when using modern CSS features:
+
+```css
+/* Fallback for older browsers */
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Modern grid for supporting browsers */
+@supports (display: grid) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+```
+
+## Conclusion
+
+Modern CSS provides powerful tools for creating sophisticated, maintainable, and performant user interfaces. By embracing these techniques, you can write cleaner code, create better user experiences, and build more resilient web applications.
+
+The key is to start incorporating these features gradually, always considering browser support and providing appropriate fallbacks. As these features become more widely supported, they'll become essential tools in every developer's toolkit.
+
+## Resources for Further Learning
+
+- [MDN CSS Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [Can I Use](https://caniuse.com/) for browser support
+- [CSS Grid Garden](https://cssgridgarden.com/) for interactive learning
+- [Flexbox Froggy](https://flexboxfroggy.com/) for flexbox practice
+
+Keep experimenting with these modern CSS techniques, and don't be afraid to push the boundaries of what's possible with CSS!
+
